@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>Calculadora Big Pyme/Centrex</title>
+   <link rel="stylesheet" href="css/jquery-ui.css">
+   <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+   <form id="calculadoraForm">
+      <div>
+         <label for="product">Producto</label>
+         <select name="product" id="product">
+            <option value="centrex">Centrex</option>
+            <option value="bigPyme">Big PYME</option>
+            <option value="bigPymeAdmins">Big PYME administraciones públicas</option>
+            <option value="bigPymeAdmins">Big PYME + ampliación de puestos posterior</option>
+         </select>
+      </div>
+      <div>
+         <label for="positions">Número de puestos</label>
+         <input type="number" name="positions" id="positions">
+      </div>
+      <div>
+         <label for="posType">Tipo de puesto</label>
+         <select name="posType" id="posType">
+            <option value="advanced">Puesto avanzado</option>
+            <option value="basic">Puesto básico</option>
+            <option value="analogic">Puesto analógico</option>
+            <option value="wireless">Puesto inalámbrico</option>
+            <option value="mobile">Puesto móvil</option>
+         </select>
+      </div>
+      <div>
+         <label for="activationDate">Fecha de activación del servicio</label>
+         <input type="text" name="activationDate" id="activationDate" class="datepickerInp">
+      </div>
+      <div>
+         <input type="text" id="prueba" value="12345">
+      </div>
+      <div>
+         <label for="endDate">Fecha de finalización del servicio</label>
+         <input type="text" name="endDate" id="endDate" class="datepickerInp">
+      </div>
+      <div>
+         <label for="unsubscribeDate" class="hidden">Fecha de baja</label>
+         <input type="text" name="unsubscribeDate" id="unsubscribeDate" class="hidden datepickerInp">
+      </div>
+      <div>
+         <label for="fee">Mensualidad</label>
+         <input type="number" name="fee" id="fee">
+      </div>
+   </form>
+   <button id="crazy">Locura</button>
+   <!-- <script src="js/jquery1.2.6-min.js"></script>-->
+   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+   <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script> -->
+   <script src="js/jquery-ui-latest.js"></script>
+   <script src="js/jquery.caret.js"></script>
+   <script src="js/main.js"></script>
+</body>
+</html>
