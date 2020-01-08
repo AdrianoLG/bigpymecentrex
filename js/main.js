@@ -6,19 +6,25 @@ $(function() {
       $('#positions').spinner({
          min: 2
       });
-      $('#fee').spinner({
-         step: 0.0001,
-         numberFormat: 'n',
-         change: function( event, ui ) {
-            $(this).val(parseFloat($(this).val()).toFixed(4));
-         }
+      $('.fee').each(function(k, v) {
+         $(v).spinner({
+            step: 0.0001,
+            numberFormat: 'n',
+            change: function( event, ui ) {
+               $(this).val(parseFloat($(this).val()).toFixed(4));
+            }
+         });
       });
 
       /**
        * SELECTMENU - SELECT
        */
-      $('#product').selectmenu();
-      $('#posType').selectmenu();
+      $('.product').each(function(k, v) {
+         $('.product').selectmenu();
+      });
+      $('.posType').each(function(k, v) {
+         $('.posType').selectmenu();
+      });
 
       /**
        * DATEPICKER - CUSTOM
@@ -46,16 +52,22 @@ $(function() {
       // let todayString = ('0' + today.getDate()).slice(-2) + '/' + ('0' + (today.getMonth() + 1)).slice(-2) + '/' + today.getFullYear();
       // Default date, init datepicker
       let todayString = '';
-      $('#activationDate').val(todayString);
-      jQuery( '#activationDate' ).datepicker();
-      $('#endDate').val(todayString);
-      jQuery( '#endDate' ).datepicker();
-      $('#unsubscribeDate').val(todayString);
-      jQuery( '#unsubscribeDate' ).datepicker();
+      $('.activationDate').each(function(k, v) {
+         $(v).val(todayString);
+         $(v).datepicker();
+      });
+      $('.endDate').each(function(k, v) {
+         $(v).val(todayString);
+         $(v).datepicker();
+      });
+      $('.unsubscribeDate').each(function(k, v) {
+         $(v).val(todayString);
+         $(v).datepicker();
+      });
 
       // Change date dynamically
-      let partAt = '';
       $('.datepickerInp').each(function() {
+         let partAt = '';
          // When click select range
          $(this).click(function() {
             console.log('click: ');

@@ -1,3 +1,84 @@
-#select, .hidden {
+/* TODO eliminar al subir a Pre */
+body {
+   font-family: HelveticaNeue, Helvetica, sans-serif;
+}
+#calculadoraForm {
+   margin: 0 auto;
+   width: 950px;
+}
+#calculadoraForm h2 {
+   color: #ff7900;
+   font-weight: normal;
+   font-size: 27px;
+   line-height: 125%;
+   margin: 0 0 10px 0;
+   width: 100%;
+}
+#calculadoraForm h3 {
+   margin: 2em 0;
+}
+/* TODO fin eliminar al subir a Pre */
+#calculadoraForm .ui-widget,
+#calculadoraForm .ui-button,
+#calculadoraForm .datepickerInp {
+   background: #F3F3F3;
+}
+#calculadoraForm .ui-button {
+   margin-right: 0;
+}
+#calculadoraForm .datepickerInp {
+   border: 1px solid #C5C5C5;
+   border-radius: 3px;
+   box-sizing: border-box;
+   height: 32px;
+   padding: .4em 1em;
+   width: 19.35em;
+}
+#calculadoraForm .ui-spinner {
+   width: 16em;
+}
+#calculadoraForm #select, #calculadoraForm .hidden {
    display: none;
+}
+#calculadoraForm .ui-button:focus, #calculadoraForm input:focus, #calculadoraForm select:focus {
+   outline: none;
+}
+#calculadoraForm .ui-button:active {
+   border: 1px solid #CCC;
+   color: #454545;
+}
+#calculadoraForm .ui-state-active .ui-icon, #calculadoraForm .ui-button:active .ui-icon {
+   background-image: url(images/ui-icons_444444_256x240.png);
+}
+#calculadoraForm .calcContainer {
+   display: flex;
+   justify-content: space-between;
+}
+#calculadoraForm hr {
+   margin: 2em 0;
+}
+#calculadoraForm .calcContainer .fifty {
+   width: 48%;
+}
+#calculadoraForm .calcContainer .fifty>div {
+   display: flex;
+   justify-content: space-between;
+   margin-bottom: 1em;
+}
+#calculadoraForm .calcContainer .fifty>div.buttons {
+   justify-content: flex-end;
+}
+#calculadoraForm .calcContainer .fifty>div.buttons button {
+   width: 9.425em;
+}
+#calculadoraForm .calcContainer .fifty>div.buttons button:last-child {
+   margin-left: .5em;
+}
+#calculadoraForm .calcContainer .fifty>div.hidden {
+   display: none;
+}
+#calculadoraForm label {
+   color: #5C5C5C;
+   font-size: .875rem;
+   font-weight: bold;
 }
