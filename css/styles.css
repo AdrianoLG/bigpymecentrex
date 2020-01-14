@@ -11,11 +11,14 @@ body {
    font-weight: normal;
    font-size: 27px;
    line-height: 125%;
-   margin: 0 0 10px 0;
+   margin: 1em 0 10px 0;
    width: 100%;
 }
 #calculadoraForm h3 {
    margin: 2em 0;
+}
+#calculadoraForm h4 {
+   margin: 0 0 2em;
 }
 /* TODO fin eliminar al subir a Pre */
 #calculadoraForm .ui-widget,
@@ -32,7 +35,11 @@ body {
    box-sizing: border-box;
    height: 32px;
    padding: .4em 1em;
-   width: 19.35em;
+   width: 16.15em;;
+}
+#calculadoraForm .ui-spinner-input {
+   margin: 0;
+   padding: .25em .7em;
 }
 #calculadoraForm .ui-spinner {
    width: 16em;
@@ -52,12 +59,14 @@ body {
 }
 #calculadoraForm .calcContainer {
    display: flex;
+   flex-wrap: wrap;
    justify-content: space-between;
 }
 #calculadoraForm hr {
    margin: 2em 0;
 }
 #calculadoraForm .calcContainer .fifty {
+   margin-bottom: 2em;
    width: 48%;
 }
 #calculadoraForm .calcContainer .fifty>div {
@@ -77,8 +86,60 @@ body {
 #calculadoraForm .calcContainer .fifty>div.hidden {
    display: none;
 }
+#calculadoraForm .centeredButton {
+   display: flex;
+   justify-content: center;
+   margin: 1em 0;
+}
+#calculadoraForm .centeredButton button {
+   box-sizing: border-box;
+   padding: .5em 1em;
+}
+#calculadoraForm .textInput.ui-button {
+   cursor: default;
+}
+#calculadoraForm .clientName {
+   align-items: center;
+   display: flex;
+   justify-content: space-between;
+   margin-bottom: 1em;
+   width: 48%;
+}
+#calculadoraForm .ui-selectmenu-button.ui-button {
+   padding: .25em .25em .25em .75em;
+   width: 15em;
+}
+#calculadoraForm #copyData, #calculadoraForm #addStation {
+   background: white;
+   border: 1px solid gray;
+   float: right;
+   margin-bottom: 3em;
+   padding: .5em 1em;
+}
+#calculadoraForm #copyData:hover, #calculadoraForm #addStation:hover {
+   background: #EFEFEF;
+   cursor: pointer;
+   transition: .5s background;
+}
 #calculadoraForm label {
    color: #5C5C5C;
    font-size: .875rem;
    font-weight: bold;
+}
+#calculadoraForm input {
+   font-size: 1em;
+}
+#calculadoraForm input:disabled {
+   color: gray;
+}
+#calculadoraForm table {
+   border: 1px solid #5C5C5C;
+   border-collapse: collapse;
+   margin-bottom: 1em;
+   width: 100%;
+}
+#calculadoraForm table td, #calculadoraForm table th {
+   border: 1px solid #5C5C5C;
+   padding: .5em;
+   text-align: left;
 }
