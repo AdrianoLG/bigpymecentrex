@@ -10,6 +10,7 @@ if ($('#calculadoraForm').length) {
    $('.posNum input').spinner({
       min: 1
    });
+   var count = 0;
    $('.fee input').each(function(k, v) {
       $(v).spinner({
          step: 0.0001,
@@ -19,7 +20,7 @@ if ($('#calculadoraForm').length) {
          }
       });
    });
-
+   console.log(count);
    /**
     * SELECTMENU - SELECT
     */
@@ -55,25 +56,29 @@ if ($('#calculadoraForm').length) {
    // Default date, init datepicker
    let todayString = '';
    $('.activationDate input').each(function(k, v) {
-      $(v).val(todayString);
-      $(v).datepicker();
+      if ($(v).val() == '') {
+         $(v).val(todayString);
+         $(v).datepicker();
+      }
    });
    $('#calculadoraForm .endDate input').each(function(k, v) {
-      $(v).val(todayString);
-      $(v).datepicker();
+      if ($(v).val() == '') {
+         $(v).val(todayString);
+         $(v).datepicker();
+      }
    });
    $('#calculadoraForm .unsubscribeDate input').each(function(k, v) {
-      $(v).val(todayString);
-      $(v).datepicker();
+      if ($(v).val() == '') {
+         $(v).val(todayString);
+         $(v).datepicker();
+      }
    });
 
    // Change date dynamically
    $('#calculadoraForm .datepickerInp').each(function() {
       let partAt = '';
-      console.log($(this));
       // When click select range
       $(this).unbind('click').bind('click', function(e) {
-         console.log('Click');
 
          let pos = document.getElementById(this.id).selectionStart;
          switch(pos) {
@@ -106,7 +111,6 @@ if ($('#calculadoraForm').length) {
       });
       // When focus use arrow keys to change day, month and year
       $(this).focus(function(e) {
-         console.log('Focus');
          let dis = this;
          $(document).keydown(function(e) {
             let date = $(dis).datepicker('getDate');

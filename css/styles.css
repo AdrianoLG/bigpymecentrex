@@ -19,6 +19,7 @@ body {
 }
 #calculadoraForm h4 {
    margin: 0 0 2em;
+   width: 100%;
 }
 /* TODO fin eliminar al subir a Pre */
 #calculadoraForm .ui-widget,
@@ -44,10 +45,13 @@ body {
 #calculadoraForm .ui-spinner {
    width: 16em;
 }
-#calculadoraForm #select, #calculadoraForm .hidden {
+#calculadoraForm #select,
+#calculadoraForm .hidden {
    display: none;
 }
-#calculadoraForm .ui-button:focus, #calculadoraForm input:focus, #calculadoraForm select:focus {
+#calculadoraForm .ui-button:focus,
+#calculadoraForm input:focus,
+#calculadoraForm select:focus {
    outline: none;
 }
 #calculadoraForm .ui-button:active {
@@ -65,27 +69,50 @@ body {
 #calculadoraForm hr {
    margin: 2em 0;
 }
-#calculadoraForm .calcContainer .fifty {
-   margin-bottom: 2em;
-   width: 48%;
+#calculadoraForm .calcContainer .station {
+   box-sizing: border-box;
+   border-bottom: 1px solid #ddd;
+   display: flex;
+   justify-content: flex-start;
+   flex-wrap: wrap;
+   padding: 2em 0;
+   width: 100%;
 }
-#calculadoraForm .calcContainer .fifty>div {
+#calculadoraForm .calcContainer .station:first-child {
+   padding-top: 0;
+}
+#calculadoraForm .calcContainer .station:last-child {
+   border-bottom: none;
+}
+#calculadoraForm .calcContainer .station>div {
    display: flex;
    justify-content: space-between;
    margin-bottom: 1em;
 }
-#calculadoraForm .calcContainer .fifty>div.buttons {
-   justify-content: flex-end;
+#calculadoraForm .calcContainer .station .posNum,
+#calculadoraForm .calcContainer .station .posType {
+   margin-left: 2%;
 }
-#calculadoraForm .calcContainer .fifty>div.buttons button {
-   width: 9.425em;
+#calculadoraForm .calcContainer .station .posNum span {
+   width: 4em;
 }
-#calculadoraForm .calcContainer .fifty>div.buttons button:last-child {
-   margin-left: .5em;
+#calculadoraForm .calcContainer .station .posType select,
+#calculadoraForm .calcContainer .station .fee span {
+   width: 6em;
 }
-#calculadoraForm .calcContainer .fifty>div.hidden {
+#calculadoraForm .calcContainer .station .fee,
+#calculadoraForm .calcContainer .station .activationDate,
+#calculadoraForm .calcContainer .station .endDate {
+   margin-right: 1em;
+}
+#calculadoraForm .calcContainer .station .activationDate input,
+#calculadoraForm .calcContainer .station .endDate input,
+#calculadoraForm .calcContainer .station .unsubscribeDate input {
+   width: 8.6em;
+}
+/* #calculadoraForm .calcContainer .station>div.hidden {
    display: none;
-}
+} */
 #calculadoraForm .centeredButton {
    display: flex;
    justify-content: center;
@@ -107,16 +134,21 @@ body {
 }
 #calculadoraForm .ui-selectmenu-button.ui-button {
    padding: .25em .25em .25em .75em;
-   width: 15em;
+   width: 17em;
 }
-#calculadoraForm #copyData, #calculadoraForm #addStation {
+#calculadoraForm .posType .ui-selectmenu-button.ui-button {
+   width: 12em;
+}
+#calculadoraForm #copyData,
+#calculadoraForm #addStation {
    background: white;
    border: 1px solid gray;
    float: right;
    margin-bottom: 3em;
    padding: .5em 1em;
 }
-#calculadoraForm #copyData:hover, #calculadoraForm #addStation:hover {
+#calculadoraForm #copyData:hover,
+#calculadoraForm #addStation:hover {
    background: #EFEFEF;
    cursor: pointer;
    transition: .5s background;
@@ -125,6 +157,7 @@ body {
    color: #5C5C5C;
    font-size: .875rem;
    font-weight: bold;
+   margin-right: 1em;
 }
 #calculadoraForm input {
    font-size: 1em;
@@ -138,8 +171,26 @@ body {
    margin-bottom: 1em;
    width: 100%;
 }
-#calculadoraForm table td, #calculadoraForm table th {
+#calculadoraForm table td,
+#calculadoraForm table th {
    border: 1px solid #5C5C5C;
    padding: .5em;
    text-align: left;
+}
+#calculadoraForm table td {
+   text-align: center;
+}
+#calculadoraForm table td:first-child {
+   text-align: left;
+}
+#calculadoraForm table td:last-child {
+   text-align: right;
+}
+#calculadoraForm .total {
+   padding: 0 .5625rem 1rem;
+   text-align: right;
+}
+#calculadoraForm .warning {
+   color: red;
+   font-size: .75rem;
 }

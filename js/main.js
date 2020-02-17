@@ -1,4 +1,5 @@
 let tableValues = [];
+let root;
 $(function() {
    tableValues.push(tableValue(1));
    tableValues.push(tableValue(2));
@@ -8,9 +9,9 @@ $(function() {
    $('#addStation').click(function() {
       const index = Object.keys(tableValues).length + 1;
       tableValues.push(tableValue(index));
+      $.getScript('./js/form.js');
       appendContent(index);
       appendRow();
-      $.getScript('./js/form.js');
       init();
    });
    init();
@@ -19,10 +20,100 @@ $(function() {
    });
    // APP LOGIC
    function init() {
-         // Product
-      $('#calculadoraForm .product select').on('selectmenuchange', function(event, ui) {
-         let id = parseInt($(this)[0].name.match(/\d+/)[0]);
-         let value = $(this).val();
+      // FORM
+         // Select changes
+      $('#calculadoraForm select').on('selectmenuchange', function() {
+         formHasChanged($(this));
+      });
+         // Input changes
+      $('#calculadoraForm input').change(function() {
+         formHasChanged($(this));
+      });
+         // Spin changes (input)
+      $('#calculadoraForm input').on('spinstart', function() {
+         $(this).parent().find('.ui-button').unbind().click(function(e) {
+            formHasChanged($(this).parent().find('input'));
+         });
+      });
+   }
+   // FUNCTIONS
+   function formHasChanged(dis) {
+      let stationId = dis[0].id.match(/\d/g);
+      let stationName = dis[0].id.match(/[a-zA-Z]/g).join('');
+      if (stationName === 'posNum' || stationName === 'fee') {
+         root = $(dis).parent().parent().parent();
+      } else {
+         root = $(dis).parent().parent();
+      }
+      let productVal = $(root).find('.product select').val();
+      let posNumVal = $(root).find('.posNum input').val();
+      let posTypeVal = $(root).find('.posType select').val();
+      let feeVal = $(root).find('.fee input').val();
+      let activationDateVal = $(root).find('.activationDate input').val();
+      let endDateVal = $(root).find('.activationDate input').val();
+      let unsubscribeDateVal = $(root).find('.activationDate input').val();
+      switch (stationName) {
+         case 'product':
+            fillProduct(dis, stationId, stationName);
+            if (feeVal != '' && activationDateVal != '') {
+               changeDates(activationDateVal);
+               calculatePenalizeDays();
+            }
+            break;
+         case 'posNum':
+            // posNum changes
+            break;
+         case 'posType':
+            // posType changes
+            break;
+         case 'fee':
+            if (activationDateVal != '' && unsubscribeDateVal != '') {
+               calculatePenalizeDays();
+            }
+            break;
+         case 'activationDate':
+            changeDates(activationDateVal);
+            calculatePenalizeDays();
+            checkDates();
+            break;
+            case 'endDate':
+               // endDate changes
+               break;
+            case 'unsubscribeDate':
+               if (productVal != '' && activationDateVal != '' && endDateVal != '' && unsubscribeDateVal != '') {
+                  changeDates(activationDateVal);
+                  checkDates();
+                  calculatePenalizeDays();
+               }
+            // Activación o fecha
+            break;
+         default:
+      }
+      productVal = '';
+      posNumVal = '';
+      posTypeVal = '';
+      feeVal = '';
+      activationDateVal = '';
+      endDateVal = '';
+      unsubscribeDateVal = '';
+   }
+   function checkDates() {
+      let activationDate = $(root).find('.activationDate input').datepicker('getDate');
+      let unsubscribeDate = $(root).find('.unsubscribeDate input').datepicker('getDate');
+      let activationDateTS = activationDate.getTime();
+      let unsubscribeDateTS = unsubscribeDate.getTime();
+      if (unsubscribeDateTS < activationDateTS) {
+         $(root).append('<p class="warning">La fecha de baja no puede ser inferior a la fecha de activación</p>');
+         setTimeout(() => {
+            $('.warning').remove();
+            $(root).find('.unsubscribeDate input').datepicker('setDate', activationDate);
+         }, 3000);
+      }
+   }
+   function fillProduct(dis) {
+      let id = parseInt(dis[0].name.match(/\d+/)[0]);
+      let value = dis.val();
+      if (value) {
          switch (value) {
             case 'centrex':
                $('#calculadoraForm table tr:nth-child(' + (id + 1) + ') td:first-child').text('Centrex');
@@ -43,34 +134,19 @@ $(function() {
             default:
                console.log('Error');
          }
-         const root = $(this).parent().parent(); // station
-         const product = $(root).find('.product select').val();
-         changeActivationDate(root, product);
-      });
-         // Activation date
-      $('#calculadoraForm .activationDate input').change(function(event) {
-         activationDate($(this), event);
-         $(this).parent().parent().find('.unsubscribeDate input').datepicker('setDate', toDate(event.target.value));
-      });
-         // Fee
-      $('#calculadoraForm .fee input').change(function() {
-         const root = $(this).parent().parent().parent(); // station
-         penalizeDays(root, $(this));
-      });
+      }
    }
-   // FUNCTIONS
-   function activationDate(dis, event) {
-      const root = $(dis).parent().parent(); // station
+   function changeDates(activationDate) {
       $(root).find('.endDate').removeClass('hidden');
       $(root).find('.unsubscribeDate').removeClass('hidden');
       const product = $(root).find('.product select').val();
-      if (product != '-') {
-         changeActivationDate(root, product, event);
+      if ((product != '' || product != '-') && (activationDate != '' || activationDate != '-')) {
+         setDates(activationDate, product);
       }
    }
    function appendContent(contentId) {
       $('.calcContainer').append(''
-         + '<div id="station' + contentId + '" class="fifty fifty-left station">'
+         + '<div id="station' + contentId + '" class="station">'
             + '<h4>Puesto ' + contentId + '</h4>'
             + '<div class="product">'
                + '<label for="product' + contentId + '">Producto</label>'
@@ -97,21 +173,21 @@ $(function() {
                   + '<option value="mobile">Puesto móvil</option>'
                + '</select>'
             + '</div>'
+            + '<div class="fee">'
+               + '<label for="fee' + contentId + '">Mensualidad</label>'
+               + '<input name="fee" id="fee' + contentId + '" placeholder="0.0000">'
+            + '</div>'
             + '<div class="activationDate">'
-               + '<label for="activationDate' + contentId + '">Fecha de activación</label>'
+               + '<label for="activationDate' + contentId + '">Fecha de<br>activación</label>'
                + '<input type="text" placeholder="dd/mm/aaaa" name="activationDate' + contentId + '" id="activationDate' + contentId + '" class="datepickerInp">'
             + '</div>'
             + '<div class="endDate hidden">'
-               + '<label for="endDate' + contentId + '">Fecha de finalización</label>'
+               + '<label for="endDate' + contentId + '">Fecha de<br>finalización</label>'
                + '<input type="text" placeholder="dd/mm/aaaa" name="endDate' + contentId + '" id="endDate' + contentId + '" class="datepickerInp">'
             + '</div>'
             + '<div class="unsubscribeDate hidden">'
                + '<label for="unsubscribeDate' + contentId + '">Fecha de baja</label>'
                + '<input type="text" placeholder="dd/mm/aaaa" name="unsubscribeDate' + contentId + '" id="unsubscribeDate' + contentId + '" class="datepickerInp">'
-            + '</div>'
-            + '<div class="fee">'
-               + '<label for="fee' + contentId + '">Mensualidad</label>'
-               + '<input name="fee" id="fee' + contentId + '" placeholder="0.0000">'
             + '</div>'
          + '</div>');
    }
@@ -126,26 +202,39 @@ $(function() {
             + '<td class="tbPenal"></td>'
          + '</tr>');
    }
-   function calculateAmount(dis, penalizeDays, id) {
-      const root = $(dis).parent().parent().parent();
+   function calculateAmount(penalizeDays, id) {
       const product = $(root).find('.product select').val();
-      let fee = dis.val();
-      let amount = fee / 30 * penalizeDays;
+      let fee = $(root).find('.fee input').val();
+      let amount = (fee / 30) * penalizeDays;
       let roundedAmount = amount.toFixed(2);
       if (product === 'centrex') {
-         $('#calculadoraForm table tr:nth-child(' + (id + 1) + ') td:nth-child(6)').text(roundedAmount + '€');
+         $("#calculadoraForm table tr:nth-child(" + (id + 1) + ") td:nth-child(6)").text(roundedAmount + '€');
+         $("#calculadoraForm table tr:nth-child(" + (id + 1) + ") td:nth-child(4)").text('');
+         $("#calculadoraForm table tr:nth-child(" + (id + 1) + ") td:nth-child(5)").text('');
       } else {
-         $('#calculadoraForm table tr:nth-child(' + (id + 1) + ') td:nth-child(4)').text(roundedAmount + '€');
-         calculatePercentage(dis, amount, id);
-         calculatePenalty(dis, amount, id, penalizeDays);
+         $("#calculadoraForm table tr:nth-child(" + (id + 1) + ") td:nth-child(4)").text(roundedAmount + '€');
+         calculatePenalty(amount, id, penalizeDays);
       }
+      let total = 0;
+      $('#calculadoraForm table tr .tbPenal').each(function(k, v) {
+         let temp = $(this)[0].innerHTML;
+         if (temp != '') {
+            let tempNoUnit = temp.slice(0, temp.length - 1);
+            total += parseFloat(tempNoUnit);
+         }
+      });
+      if (!$('#calculadoraForm .total').length) {
+         $('#calculadoraForm #calculatorData').append(''
+            + '<p class="total">Total: ' + total + '€</p>');
+      }
+      $('#calculadoraForm table .total').text('Total: ' + total + '€');
    }
-   function calculatePenalty(dis, amount, id, penalizeDays) {
+   function calculatePenalty(amount, id, penalizeDays) {
       let penalty;
-      const root = $(dis).parent().parent().parent();
       const product = $(root).find('.product select').val();
       switch (product) {
          case 'centrex':
+            penalty = 0;
             break;
          case 'bigPyme':
             if (penalizeDays > 365) {
@@ -171,16 +260,18 @@ $(function() {
          default:
             console.log('Error setting penalty');
       }
-      $('#calculadoraForm table tr:nth-child(' + (id + 1) + ') td:nth-child(6)').text(penalty.toFixed(2) + '€');
+      if (penalty !== undefined) {
+         $('#calculadoraForm table tr:nth-child(' + (id + 1) + ') td:nth-child(6)').text(penalty.toFixed(2) + '€');
+         calculatePercentage(amount, penalty, id);
+      }
    }
-   function calculatePercentage(dis, amount, id) {
-      let contractLength = parseInt($('#calculadoraForm table tr:nth-child(' + (id + 1) + ') td:nth-child(2)').text().match(/\d+/)[0]);
-      let percentage = (amount * 100) / (contractLength * $(dis).val());
-      let roundedPercentage = percentage.toFixed(2);
+   function calculatePercentage(amount, penalty, id) {
+      let percentage = (penalty * 100) / amount;
+      let roundedPercentage = parseInt(percentage.toFixed(2));
       $('#calculadoraForm table tr:nth-child(' + (id + 1) + ') td:nth-child(5)').text(roundedPercentage + '%');
    }
-   function changeActivationDate(root, product, event = null) {
-      let newDate = event === null ? toDate($(root).find('.activationDate input').val()) : toDate(event.target.value);
+   function setDates(activationDate, product) {
+      let newDate = toDate(activationDate);
       switch (product) {
          case 'centrex':
             newDate.setMonth(newDate.getMonth() + 18);
@@ -197,10 +288,12 @@ $(function() {
       }
       $(root).find('.endDate input').datepicker('setDate', newDate);
       $(root).find('.endDate input').datepicker('disable');
+      if ($(root).find('.unsubscribeDate input').datepicker('getDate') == null) {
+         $(root).find('.unsubscribeDate input').datepicker('setDate', toDate(activationDate));
+      }
    }
    // Copies values from HTML
    function copy(selector) {
-      console.log('Entra');
       let clientName = '<h3>' + $('#calculadoraForm .clientName input').val() + '</h3>';
       var $temp = $('<div id="toCopy">');
       $('body').append($temp);
@@ -209,24 +302,24 @@ $(function() {
       document.execCommand('copy');
       $temp.remove();
    }
-   function penalizeDays(root, dis) {
+   function calculatePenalizeDays() {
       let endDate = $(root).find('.endDate input').datepicker('getDate');
       let unsubscribeDate = $(root).find('.unsubscribeDate input').datepicker('getDate');
-      let penalizeDays = Math.ceil((endDate - unsubscribeDate) / (1000 * 60 * 60 * 24)); // Days to penalize
-      let id = parseInt($(root)[0].id.match(/\d+/)[0]);
+      var diff = Math.abs(endDate - unsubscribeDate);
+      let penalizeDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
+      let stationId = $(root).attr('id');
+      let id = parseInt(stationId.substr(stationId.length - 1, 1));
       $('#calculadoraForm table tr:nth-child(' + (id + 1) + ') td:nth-child(3)').text(penalizeDays);
-      calculateAmount(dis, penalizeDays, id);
+      calculateAmount(penalizeDays, id);
    }
    function printValues() {
       tableValues.forEach(element => {
          appendContent(element.station);
       });
       $('.calcContainer').css('height', 'auto');
-      $.getScript('./js/form.js');
    }
    // Selects text to copy
    function selectText(el){
-      console.log('Por aquí también');
       var doc = document;
       var element = document.getElementById(el);
       if (doc.body.createTextRange) {
