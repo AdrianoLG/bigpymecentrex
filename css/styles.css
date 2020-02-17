@@ -2,6 +2,7 @@
 body {
    font-family: HelveticaNeue, Helvetica, sans-serif;
 }
+/* END TODO eliminar al subir a Pre */
 #calculadoraForm {
    margin: 0 auto;
    width: 950px;
@@ -75,7 +76,7 @@ body {
    display: flex;
    justify-content: flex-start;
    flex-wrap: wrap;
-   padding: 2em 0;
+   padding: 1em 0;
    width: 100%;
 }
 #calculadoraForm .calcContainer .station:first-child {
@@ -96,9 +97,11 @@ body {
 #calculadoraForm .calcContainer .station .posNum span {
    width: 4em;
 }
-#calculadoraForm .calcContainer .station .posType select,
-#calculadoraForm .calcContainer .station .fee span {
+#calculadoraForm .calcContainer .station .posType select {
    width: 6em;
+}
+#calculadoraForm .calcContainer .station .fee span {
+   width: 7.85em;
 }
 #calculadoraForm .calcContainer .station .fee,
 #calculadoraForm .calcContainer .station .activationDate,
@@ -108,11 +111,11 @@ body {
 #calculadoraForm .calcContainer .station .activationDate input,
 #calculadoraForm .calcContainer .station .endDate input,
 #calculadoraForm .calcContainer .station .unsubscribeDate input {
-   width: 8.6em;
+   width: 8em;
 }
-/* #calculadoraForm .calcContainer .station>div.hidden {
+#calculadoraForm .calcContainer .station>div.hidden {
    display: none;
-} */
+}
 #calculadoraForm .centeredButton {
    display: flex;
    justify-content: center;
@@ -123,14 +126,15 @@ body {
    padding: .5em 1em;
 }
 #calculadoraForm .textInput.ui-button {
-   cursor: default;
+   cursor: text;
+   text-align: left;
 }
 #calculadoraForm .clientName {
    align-items: center;
    display: flex;
    justify-content: space-between;
    margin-bottom: 1em;
-   width: 48%;
+   width: 43%;
 }
 #calculadoraForm .ui-selectmenu-button.ui-button {
    padding: .25em .25em .25em .75em;
@@ -140,14 +144,21 @@ body {
    width: 12em;
 }
 #calculadoraForm #copyData,
+#calculadoraForm #copyTable,
 #calculadoraForm #addStation {
    background: white;
    border: 1px solid gray;
    float: right;
-   margin-bottom: 3em;
    padding: .5em 1em;
 }
+#calculadoraForm #copyTable {
+   margin-right: .5em;
+}
+#calculadoraForm #copyData {
+   margin-bottom: 3em;
+}
 #calculadoraForm #copyData:hover,
+#calculadoraForm #copyTable:hover,
 #calculadoraForm #addStation:hover {
    background: #EFEFEF;
    cursor: pointer;
@@ -170,6 +181,15 @@ body {
    border-collapse: collapse;
    margin-bottom: 1em;
    width: 100%;
+}
+#calculadoraForm table th:nth-child(2) {
+   min-width: 11em;
+}
+#calculadoraForm table th:nth-child(3) {
+   min-width: 8em;
+}
+#calculadoraForm table th:nth-child(4) {
+   min-width: 7em;
 }
 #calculadoraForm table td,
 #calculadoraForm table th {

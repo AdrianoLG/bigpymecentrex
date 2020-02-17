@@ -10,17 +10,16 @@ if ($('#calculadoraForm').length) {
    $('.posNum input').spinner({
       min: 1
    });
-   var count = 0;
    $('.fee input').each(function(k, v) {
       $(v).spinner({
-         step: 0.0001,
+         min: 1,
+         step: 1,
          numberFormat: 'n',
          change: function( event, ui ) {
             $(this).val(parseFloat($(this).val()).toFixed(4));
          }
       });
    });
-   console.log(count);
    /**
     * SELECTMENU - SELECT
     */
@@ -106,7 +105,6 @@ if ($('#calculadoraForm').length) {
                partAt = 'year';
                break;
             default:
-               console.log('Exceeded date range');
          }
       });
       // When focus use arrow keys to change day, month and year
@@ -157,7 +155,6 @@ if ($('#calculadoraForm').length) {
                         $(dis).selectRange(6, 10);
                         break;
                      default:
-                        console.log('Out of date range');
                         break;
                   }
                   break;
